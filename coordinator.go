@@ -27,12 +27,14 @@ func Do(ctx context.Context, params Params) error {
 		}
 	}()
 	// prepare all participants
+	// TODO: this potentially could be done in parallel
 	for i := range params.Participants {
 		if err := params.Participants[i].prepare(ctx); err != nil {
 			return err
 		}
 	}
 	// commit all participants
+	// TODO: this potentially could be done in parallel
 	for i := range params.Participants {
 		if err := params.Participants[i].commit(); err != nil {
 			log("commit failed: %s", err)
