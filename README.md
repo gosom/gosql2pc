@@ -26,7 +26,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/gosom/gosql2pc"
+	twophase "github.com/gosom/go-sql-2pc"
 	_ "github.com/jackc/pgx/stdlib"
 )
 
@@ -63,23 +63,23 @@ func main() {
     amount := 10
 
     // Create the participants for the 2 phase commit
-    p1 := gosql2pc.NewParticipant(db1, func(ctx context.Context, tx *sql.Tx) error {
+    p1 := twophase.NewParticipant(db1, func(ctx context.Context, tx *sql.Tx) error {
         _, err := tx.ExecContext(ctx, "INSERT INTO users (id, name) VALUES ($1, $2)", userID, name)
         return err
     })
 
-    p2 := gosql2pc.NewParticipant(orderdb, func(ctx context.Context, tx *sql.Tx) error {
+    p2 := twophase.NewParticipant(orderdb, func(ctx context.Context, tx *sql.Tx) error {
         _, err := tx.ExecContext(ctx, "INSERT INTO orders (id, user_id, amount) VALUES ($1, $2, $3)", orderID, userID, amount)
         return err
     })
 
     // setup the parameters for the transaction
-    params := gosql2pc.Params{
+    params := twophase.Params{
         Participants: []gosql2pc.Participant{p1, p2},
     }
 
     // run the transaction
-    if err := gosql2pc.Do(context.Background(), params); err != nil {
+    if err := twophase.Do(context.Background(), params); err != nil {
         panic(err)
     }
 }
