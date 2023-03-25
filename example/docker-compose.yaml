@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  db1:
+    image: postgres:15.0-alpine
+    command: postgres -c max_prepared_transactions=100
+    expose:
+      - "5432"
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_USER: "user1"
+      POSTGRES_PASSWORD: "secret"
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user1"]
+      interval: 2s
+      timeout: 30s
+      retries: 5
+  db2:
+    image: postgres:15.0-alpine
+    command: postgres -c max_prepared_transactions=100
+    expose:
+      - "5432"
+    ports:
+      - "127.0.0.1:5433:5432"
+    environment:
+      POSTGRES_USER: "user2"
+      POSTGRES_PASSWORD: "secret"
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user2"]
+      interval: 2s
+      timeout: 30s
+      retries: 5
+
+networks:
+  default:
+
+volumes:
+  escapedata:
