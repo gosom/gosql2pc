@@ -120,7 +120,7 @@ Don't be afraid but you should know with what you are dealing with.
 In order to enable prepared transactions set  in `postgresql.conf`
 `max_prepared_transactions` to something larger that zero. Better to set it to the number of `max_connections`
 
-Alternatevely, you can set it when you start the postgreSQL server by using the `-c` flag. 
+Alternatively, you can set it when you start the postgreSQL server by using the `-c` flag. 
 (see the docker-compose.yaml in the `examples` folder).
 
 
