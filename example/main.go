@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// Connect to the databases
 	userdb, err := sql.Open("pgx", "postgres://user1:secret@localhost:5432/user1?sslmode=disable")
 	if err != nil {
 		panic(err)
@@ -26,6 +27,8 @@ func main() {
 	if err := orderdb.Ping(); err != nil {
 		panic(err)
 	}
+
+	// ------------------------------------------------------------
 
 	// Create some tables for testing
 
@@ -53,6 +56,8 @@ func main() {
 		panic(err)
 	}
 
+	// ------------------------------------------------------------
+
 	// Now we want to create an entry in the users table in userdb and an entry in the orders table in orderdb
 	// in a single transaction. We can do this by using the gosql2pc package.
 
@@ -61,16 +66,19 @@ func main() {
 	orderID := uuid.New().String()
 	amount := 100
 
+	// Prepare the first participant in the transaction
 	userParticipant := gosql2pc.NewParticipant(userdb, func(ctx context.Context, tx *sql.Tx) error {
 		_, err := tx.ExecContext(ctx, "INSERT INTO users (id, name) VALUES ($1, $2)", userID, name)
 		return err
 	})
 
+	// Prepare the second participant in the transaction
 	orderParticipant := gosql2pc.NewParticipant(orderdb, func(ctx context.Context, tx *sql.Tx) error {
 		_, err := tx.ExecContext(ctx, "INSERT INTO orders (id, user_id, amount) VALUES ($1, $2, $3)", orderID, userID, amount)
 		return err
 	})
 
+	// setup the parameters for the transaction
 	params := gosql2pc.Params{
 		LogFn: func(format string, args ...any) {
 			fmt.Println(format, args)
@@ -78,9 +86,8 @@ func main() {
 		Participants: []gosql2pc.Participant{userParticipant, orderParticipant},
 	}
 
-	// Now we can run the transaction
-	err = gosql2pc.Do(context.Background(), params)
-	if err != nil {
+	// run the transaction
+	if err := gosql2pc.Do(context.Background(), params); err != nil {
 		panic(err)
 	}
 
