@@ -7,7 +7,6 @@
 - Provides a simple and easy-to-use API for managing 2 phase commit transactions in PostgreSQL.
 - Supports distributed transaction management across multiple databases.
 - Ensures atomicity and consistency of transactions using the 2 phase commit protocol.
-- Compatible with PostgreSQL 9.6 and higher.
 
 ## Installation
 
