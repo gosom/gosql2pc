@@ -1,4 +1,7 @@
 # go-sql-2pc
+[![GoDoc](https://godoc.org/github.com/gosom/gosql2pc?status.svg)](https://godoc.org/github.com/gosom/gosql2pc)
+![build](https://github.com/gosom/gosql2pc/actions/workflows/build.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gosom/gosql2pc)](https://goreportcard.com/report/github.com/gosom/gosql2pc)
 
 `go-sql-2pc` is a Golang library for implementing 2 phase commit transactions in PostgreSQL, ensuring atomicity and consistency across distributed systems.
 
