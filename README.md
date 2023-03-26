@@ -3,21 +3,20 @@
 ![build](https://github.com/gosom/gosql2pc/actions/workflows/build.yml/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gosom/gosql2pc)](https://goreportcard.com/report/github.com/gosom/gosql2pc)
 
-`go-sql-2pc` is a Golang library for implementing 2 phase commit transactions in PostgreSQL, ensuring atomicity and consistency across distributed systems.
+`gosql2pc` is a Golang library for implementing 2 phase commit transactions in PostgreSQL, ensuring atomicity and consistency across distributed systems.
 
 ## Features
 
 - Provides a simple and easy-to-use API for managing 2 phase commit transactions in PostgreSQL.
 - Supports distributed transaction management across multiple databases.
 - Ensures atomicity and consistency of transactions using the 2 phase commit protocol.
-- Compatible with PostgreSQL 9.6 and higher.
 
 ## Installation
 
 To install `go-sql-2pc`, run the following command:
 
 ```sh
-go get github.com/gosom/go-sql-2pc
+go get github.com/gosom/gosql2pc
 ```
 
 ## Usage
@@ -29,7 +28,6 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/gosom/gosql2pc"
 	twophase "github.com/gosom/gosql2pc"
 	_ "github.com/jackc/pgx/stdlib"
 )
@@ -140,11 +138,11 @@ should be careful.
 
 
 ## Contributing
-Contributions to go-sql-2pc are always welcome. If you find a bug or want to suggest a new feature, please open an issue or submit a pull request.
+Contributions to gosql2pc are always welcome. If you find a bug or want to suggest a new feature, please open an issue or submit a pull request.
 
 
 ## LICENCE
 
-go-sql-2pc is licensed under the MIT License. See the LICENSE file for more information.
+gosql2pc is licensed under the MIT License. See the LICENSE file for more information.
 
 
